@@ -1,0 +1,35 @@
+---
+- hosts: "{{ hostname }}"
+
+  remote_user: "{{ ssh_user }}"
+
+  sudo: true
+
+  vars_files:
+    - vars/main.yml
+
+  vars_prompt:
+    - name: "znc_user"
+      prompt: "ZNC username"
+      private: no
+
+    - name: "znc_pass"
+      prompt: "ZNC password"
+      private: yes
+      confirm: yes
+
+  vars:
+      znc_pem: "{{ lookup('file', 'znc.pem') }}"
+
+  roles:
+    - angstwad.docker_ubuntu
+    - docker_ghost
+    - docker_campervan
+    - docker_znc
+
+  tasks:
+  - name: Allow port 80 HTTP
+    action: shell ufw allow 80/tcp
+
+  - name: Allow port 6697 IRC over TLS
+    action: shell ufw allow 6697/tcp
