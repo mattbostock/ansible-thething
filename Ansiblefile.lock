@@ -1,0 +1,10 @@
+GIT
+  remote: https://github.com/mattbostock/docker.ubuntu
+  ref: master
+  sha: 732b62e8c6a7abbb14062b24fcf232e0ddd6576a
+  specs:
+    angstwad.docker_ubuntu (0.0.0)
+
+DEPENDENCIES
+  angstwad.docker_ubuntu (>= 0)
+
