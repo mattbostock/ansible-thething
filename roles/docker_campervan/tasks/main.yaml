@@ -1,0 +1,3 @@
+---
+- name: Run Campervan Campfire-IRC bridge
+  docker: image=sprsquish/camper-van

@@ -1,0 +1,3 @@
+---
+- name: Run Ghost
+  docker: image=dockerfile/ghost ports=80:2368

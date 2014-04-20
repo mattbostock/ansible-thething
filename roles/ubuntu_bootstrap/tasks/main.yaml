@@ -1,0 +1,40 @@
+---
+- name: Uninstall Ubuntu crash reporter
+  apt: pkg=whoopsie purge=yes state=absent
+
+- name: Update APT package cache
+  action: apt update_cache=yes
+
+- name: Upgrade APT to the lastest packages
+  action: apt upgrade=safe
+
+- name: Install vim
+  action: apt pkg=vim state=installed
+
+- name: Install unattended-upgrades
+  action: apt pkg=unattended-upgrades state=present
+
+- name: Make sure unattended-upgrades only installs from $ubuntu_release-security
+  action: lineinfile dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-updates" state=absent
+
+- name: Setup ufw
+  action: shell ufw allow 22/tcp
+
+- name: Enable ufw
+  action: shell echo 'y' | ufw enable
+
+- name: Add main user
+  action: user name={{ ssh_user }} groups=sudo shell=/bin/bash
+
+- name: Add main user SSH key
+  action: authorized_key user={{ ssh_user }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+- name: Disallow password authentication
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PasswordAuthentication" line="PasswordAuthentication no" state=present
+
+- name: Enable passwordless sudo
+  action: 'lineinfile dest=/etc/sudoers regexp="^%sudo" line="%sudo ALL=NOPASSWD: ALL" state=present'
+
+- name: Disallow root SSH access
+  action: lineinfile dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
+  notify: Restart ssh

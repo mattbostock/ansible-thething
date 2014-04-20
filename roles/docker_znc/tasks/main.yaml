@@ -1,0 +1,14 @@
+---
+- name: Create directories for Docker volume
+  action: file path=/docker/znc/state/configs state=directory
+
+- name: Copy znc.conf
+  template:
+      src=znc.conf dest=/docker/znc/state/configs/znc.conf
+
+- name: Copy znc.pem
+  template:
+      src=znc.pem dest=/docker/znc/state/znc.pem
+
+- name: Run ZNC
+  docker: image=mboersma/znc ports=6697:6697 volumes=/docker/znc/state:/opt/znc/state expose=6697
