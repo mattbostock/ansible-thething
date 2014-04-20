@@ -1,3 +1,4 @@
 *.cache
 znc.pem
 tmp/
+librarian_roles/
