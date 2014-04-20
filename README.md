@@ -25,8 +25,8 @@ so haven't opted to proxy it through a web server for simplicity.
 
 ## Configuration
 
-I've made use file lookups and vars_prompt to pull in configuration
-variables, such as:
+I've made use of Ansible's file lookups and vars_prompt to pull in
+configuration variables, such as:
 
 - A ZNC username and password
 - An SSL PEM file for ZNC
