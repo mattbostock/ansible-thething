@@ -20,6 +20,12 @@
 - name: Setup ufw
   action: shell ufw allow 22/tcp
 
+- name: Limit SSH connections to 6 every 30 seconds
+  action: shell ufw limit ssh/tcp
+
+- name: Reject rate-limited packets instead of simply denying them
+  action: shell ufw reject auth
+
 - name: Enable ufw
   action: shell echo 'y' | ufw enable
 
