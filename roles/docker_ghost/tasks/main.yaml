@@ -1,3 +1,9 @@
 ---
+- name: Create directories for Docker volume
+  action: file path=/docker/ghost/ghost-override state=directory
+
+- name: Copy data for Ghost override volume (for themes and config.js)
+  synchronize: src=files/ghost/ghost-override/ dest=/docker/ghost/ghost-override/
+
 - name: Run Ghost
-  docker: image=dockerfile/ghost ports=80:2368
+  docker: image=dockerfile/ghost ports=80:2368 volumes=/docker/ghost/ghost-override:/ghost-override
