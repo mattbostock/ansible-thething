@@ -29,7 +29,8 @@
 
   tasks:
   - name: Allow port 80 HTTP
-    action: shell ufw allow 80/tcp
+    action: shell ufw allow from {{item}} to any port 80 proto tcp
+    with_items: fastly_ips
 
   - name: Allow port 6697 IRC over TLS
     action: shell ufw allow 6697/tcp
